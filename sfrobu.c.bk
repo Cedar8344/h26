@@ -7,7 +7,9 @@
 #include <ctype.h>
 
 int frobcmp(char const * a, char const * b);
+
 int cmp(const void * a, const void * b);
+
 void printw(char const* a);
 
 int flag = 0; //global, to be used in frobcmp
@@ -19,7 +21,6 @@ int main(int argc, char* argv[])
         char * correctflag = "-f";
         if(strcmp(argv[1], correctflag) == 0){
             flag = 1;
-//            fprintf("What the fuck");
         }
         else{
             char* err = "Error with flag, use -f";
@@ -34,24 +35,18 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    //get filedata
     struct stat fileData;
-    //exit if we have error with fstat
     if(fstat(STDIN_FILENO, &fileData) < 0){
         char* err = "Error with fstat";
         write(2, err, strlen(err));
         exit(1);
     }
-
-    //if we are using a regular file
     int usingFile = S_ISREG(fileData.st_mode);
-    // defualt to 8192 byte buffer
+
     int buffer = 8192*sizeof(char);
-    //if we are using regular file, set buffer size to file size
     if(usingFile){
         buffer = fileData.st_size*sizeof(char)+2;
     }
-    //create buffer
     char* b = (char*) malloc(buffer);
 
     int nc = 1;
@@ -63,9 +58,8 @@ int main(int argc, char* argv[])
         read(0, b+1,nc++);
         lseek(0,0,SEEK_CUR);
     }
-    //read in characters, 1 at a time
+
     while(read(0,&c, 1)){
-        // double buffer if needed
         if(nc >= buffer-1){
             buffer *= 2;
             b = (char*) realloc(b, buffer);
