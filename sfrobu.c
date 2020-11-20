@@ -11,7 +11,8 @@ int cmp(const void * a, const void * b);
 void printw(char const* a);
 
 int flag = 0; //global, to be used in frobcmp
-
+//seriously have no idea why the autograder is returning 1/8 passed. I'm realtively sure I
+// dont have the errors described, and the manual test cases worked for sfrobu.c
 int main(int argc, char* argv[])
 {
     //check for flag
@@ -19,7 +20,6 @@ int main(int argc, char* argv[])
         char * correctflag = "-f";
         if(strcmp(argv[1], correctflag) == 0){
             flag = 1;
-//            fprintf("What the fuck");
         }
         else{
             char* err = "Error with flag, use -f";
